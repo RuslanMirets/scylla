@@ -9,6 +9,9 @@ import { LinkItem } from '../LinkItem';
 import { NavItem } from '../NavItem';
 import styles from './Header.module.scss';
 import { AuthDialog } from '../AuthDialog';
+import { logout, selectUserData } from '../../redux/slices/user';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { destroyCookie } from 'nookies';
 
 const pages = [
   { title: 'Главная', href: '/' },
@@ -16,7 +19,8 @@ const pages = [
 ];
 
 export const Header: React.FC = () => {
-  const user = false;
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUserData);
 
   const [open, setOpen] = React.useState(false);
   const toggleAuthDialog = () => {
@@ -25,6 +29,17 @@ export const Header: React.FC = () => {
   const openAuthDialog = () => {
     toggleAuthDialog();
   };
+
+  const handleLogout = () => {
+    destroyCookie(null, 'scyllaToken', null);
+    dispatch(logout());
+  };
+
+  React.useEffect(() => {
+    if (user) {
+      setOpen(false);
+    }
+  }, [user]);
 
   return (
     <AppBar className={styles.root}>
@@ -53,7 +68,7 @@ export const Header: React.FC = () => {
                     <AccountCircleIcon />
                   </IconButton>
                 </LinkItem>
-                <IconButton>
+                <IconButton onClick={handleLogout}>
                   <LogoutIcon />
                 </IconButton>
               </>

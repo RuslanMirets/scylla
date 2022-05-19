@@ -4,19 +4,30 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginFormSchema } from '../../../utils/validations';
 import { FormField } from '../../FormField';
 import { Button } from '@mui/material';
+import { useAppDispatch } from '../../../redux/hooks';
+import { Api } from '../../../utils/api';
+import { setCookie } from 'nookies';
+import { login } from '../../../redux/slices/user';
 
-interface IProps {
-  onClose: () => void;
-}
+export const LoginForm: React.FC= () => {
+  const dispatch = useAppDispatch();
 
-export const LoginForm: React.FC<IProps> = () => {
   const methods = useForm({
     mode: 'onChange',
     resolver: yupResolver(LoginFormSchema),
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (dto: any) => {
+    try {
+      const data = await Api().user.login(dto);
+      setCookie(null, 'scyllaToken', data.token, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/',
+      });
+      dispatch(login(data));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

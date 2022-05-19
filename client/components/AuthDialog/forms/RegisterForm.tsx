@@ -1,22 +1,32 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '@mui/material';
+import { setCookie } from 'nookies';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useAppDispatch } from '../../../redux/hooks';
+import { login } from '../../../redux/slices/user';
+import { Api } from '../../../utils/api';
 import { RegisterFormSchema } from '../../../utils/validations';
 import { FormField } from '../../FormField';
 
-interface IProps {
-  onClose: () => void;
-}
-
-export const RegisterForm: React.FC<IProps> = ({ onClose }) => {
+export const RegisterForm: React.FC = () => {
+  const dispatch = useAppDispatch();
   const methods = useForm({
     mode: 'onChange',
     resolver: yupResolver(RegisterFormSchema),
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (dto: any) => {
+    try {
+      const data = await Api().user.register(dto);
+      setCookie(null, 'scyllaToken', data.token, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/',
+      });
+      dispatch(login(data));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
