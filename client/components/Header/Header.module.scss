@@ -1,0 +1,38 @@
+.root {
+  position: static;
+  background-color: #44484d;
+  margin-bottom: 40px;
+  padding-right: 0 !important;
+
+  .logo {
+    h5 {
+      color: #ebebeb;
+    }
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 40px;
+  }
+
+  .menu {
+    flex: 1 1 auto;
+    display: flex;
+    gap: 2px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 5px;
+    a {
+      display: block;
+    }
+    button {
+      color: #ebebeb;
+      svg {
+        font-size: 28px;
+        color: #ebebeb;
+      }
+    }
+  }
+}
