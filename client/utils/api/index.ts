@@ -1,3 +1,4 @@
+import { DepartmentApi } from './department';
 import Cookies, { parseCookies } from 'nookies';
 import axios from 'axios';
 import { GetServerSidePropsContext, NextPageContext } from 'next';
@@ -5,6 +6,7 @@ import { UserApi } from './user';
 
 export type ApiReturnType = {
   user: ReturnType<typeof UserApi>;
+  department: ReturnType<typeof DepartmentApi>;
 };
 
 export const Api = (ctx?: NextPageContext | GetServerSidePropsContext): ApiReturnType => {
@@ -20,6 +22,7 @@ export const Api = (ctx?: NextPageContext | GetServerSidePropsContext): ApiRetur
 
   const apis = {
     user: UserApi,
+    department: DepartmentApi,
   };
 
   const result = Object.entries(apis).reduce((prev, [key, f]) => {

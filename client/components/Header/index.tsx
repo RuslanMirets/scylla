@@ -12,6 +12,7 @@ import { AuthDialog } from '../AuthDialog';
 import { logout, selectUserData } from '../../redux/slices/user';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { destroyCookie } from 'nookies';
+import { selectDepartmentsData } from '../../redux/slices/department';
 
 const pages = [
   { title: 'Главная', href: '/' },
@@ -21,6 +22,7 @@ const pages = [
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUserData);
+  const departments = useAppSelector(selectDepartmentsData)
 
   const [open, setOpen] = React.useState(false);
   const toggleAuthDialog = () => {
@@ -51,6 +53,13 @@ export const Header: React.FC = () => {
           <Box className={styles.menu}>
             {pages.map((page) => (
               <NavItem key={page.title} title={page.title} href={page.href} />
+            ))}
+            {departments.map((department) => (
+              <NavItem
+                key={department.id}
+                title={department.id === 1 ? 'Мужчинам' : 'Женщинам'}
+                href={`/catalog/${department.slug}`}
+              />
             ))}
           </Box>
           <Box className={styles.actions}>

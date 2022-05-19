@@ -5,6 +5,7 @@ import { login } from '../redux/slices/user';
 import { Api } from '../utils/api';
 import { ThemeProvider } from '@mui/material';
 import { theme } from '../theme';
+import { setDepartment } from '../redux/slices/department';
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -18,6 +19,8 @@ App.getInitialProps = wrapper.getInitialAppProps((store) => async ({ ctx, Compon
   try {
     const userData = await Api(ctx).user.getMe();
     store.dispatch(login(userData));
+    const departments = await Api(ctx).department.getAll();
+    store.dispatch(setDepartment(departments));
   } catch (error: any) {
     console.log(error.response.data.message);
   }
