@@ -33,8 +33,8 @@ export const AuthDialog: React.FC<IProps> = ({ open, onClose }) => {
         </IconButton>
       </DialogTitle>
       <DialogContent className={styles.content} dividers>
-        {formType === 'login' && <LoginForm onClose={onClose} />}
-        {formType === 'register' && <RegisterForm onClose={onClose} />}
+        {formType === 'login' && <LoginForm />}
+        {formType === 'register' && <RegisterForm />}
       </DialogContent>
       <DialogActions className={styles.actions}>
         <Typography variant="body1">

@@ -2,7 +2,6 @@ import { Container, ThemeProvider } from '@mui/material';
 import Head from 'next/head';
 import React from 'react';
 import { Header } from '../components/Header';
-import { theme } from '../theme';
 
 interface IProps {
   children?: any;
@@ -22,14 +21,12 @@ const MainLayout: React.FC<IProps> = ({ children, title, description, keywords }
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ThemeProvider theme={theme}>
-        <div className="wrapper">
-          <Header />
-          <main className="main">
-            <Container>{children}</Container>
-          </main>
-        </div>
-      </ThemeProvider>
+      <div className="wrapper">
+        <Header />
+        <main className="main">
+          <Container>{children}</Container>
+        </main>
+      </div>
     </>
   );
 };

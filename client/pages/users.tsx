@@ -1,4 +1,5 @@
 import {
+  Button,
   Paper,
   Table,
   TableBody,
@@ -24,6 +25,7 @@ const Users: NextPage<IProps> = ({ users }) => {
       <Typography variant="h5" sx={{ marginBottom: '20px' }}>
         Пользователи
       </Typography>
+      <Button variant="contained">Кнопка</Button>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -52,8 +54,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
     const users = await Api(ctx).user.getAll();
     return { props: { users } };
-  } catch (error) {
-    console.log('Fulll post page', error);
+  } catch (error: any) {
+    console.log(error.response.data.message);
     return { props: {} };
   }
 };

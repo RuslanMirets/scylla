@@ -21,7 +21,7 @@ export const theme = createTheme(
       borderRadius: 8,
     },
     typography: {
-      fontFamily: '"Rubik", sans-serif',
+      fontFamily: '"Roboto", sans-serif',
     },
   },
   ruRU,
