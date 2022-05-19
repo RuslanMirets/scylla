@@ -8,6 +8,7 @@ import React from 'react';
 import { LinkItem } from '../LinkItem';
 import { NavItem } from '../NavItem';
 import styles from './Header.module.scss';
+import { AuthDialog } from '../AuthDialog';
 
 const pages = [
   { title: 'Главная', href: '/' },
@@ -15,7 +16,15 @@ const pages = [
 ];
 
 export const Header: React.FC = () => {
-  const user = true;
+  const user = false;
+
+  const [open, setOpen] = React.useState(false);
+  const toggleAuthDialog = () => {
+    setOpen(!open);
+  };
+  const openAuthDialog = () => {
+    toggleAuthDialog();
+  };
 
   return (
     <AppBar className={styles.root}>
@@ -49,13 +58,14 @@ export const Header: React.FC = () => {
                 </IconButton>
               </>
             ) : (
-              <IconButton>
+              <IconButton onClick={openAuthDialog}>
                 <LoginIcon />
               </IconButton>
             )}
           </Box>
         </Toolbar>
       </Container>
+      <AuthDialog open={open} onClose={toggleAuthDialog} />
     </AppBar>
   );
 };
