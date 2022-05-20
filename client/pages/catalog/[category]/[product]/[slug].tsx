@@ -9,16 +9,16 @@ import { ICategory } from '../../../../types/category';
 import { IProduct } from '../../../../types/product';
 import { Api } from '../../../../utils/api';
 
-interface IParams extends ParsedUrlQuery {
+interface ICtxParams extends ParsedUrlQuery {
   slug: string;
 }
 
-interface IProductParams {
+interface IParams {
   category: ICategory;
   products: IProduct[];
 }
 
-const Product: NextPage<IProductParams> = ({ category, products }) => {
+const Product: NextPage<IParams> = ({ category, products }) => {
   return (
     <MainLayout title={category.description}>
       <Typography variant="h4" sx={{ marginBottom: '30px' }}>
@@ -35,7 +35,7 @@ const Product: NextPage<IProductParams> = ({ category, products }) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
-    const { slug } = ctx.params as IParams;
+    const { slug } = ctx.params as ICtxParams;
     const category = await Api(ctx).category.getOneBySlug(slug);
     const products = await Api(ctx).product.getAllByCategory(slug);
     return { props: { category, products } };

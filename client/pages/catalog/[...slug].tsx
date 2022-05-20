@@ -9,16 +9,16 @@ import { IType } from '../../types/type';
 import { Api } from '../../utils/api';
 import { typeImage } from '../../utils/constants';
 
-interface IParams extends ParsedUrlQuery {
+interface ICtxParams extends ParsedUrlQuery {
   slug: string;
 }
 
-interface IDepartmentParams {
+interface IParams {
   department: IDepartment;
   types: IType[];
 }
 
-const Department: NextPage<IDepartmentParams> = ({ department, types }) => {
+const Department: NextPage<IParams> = ({ department, types }) => {
   return (
     <MainLayout title={department.name === 'Мужчины' ? 'Мужской отдел' : 'Женский отдел'}>
       <Typography variant="h4" sx={{ marginBottom: '30px' }}>
@@ -40,7 +40,7 @@ const Department: NextPage<IDepartmentParams> = ({ department, types }) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
-    const { slug } = ctx.params as IParams;
+    const { slug } = ctx.params as ICtxParams;
     const department = await Api(ctx).department.getOneBySlug(slug);
     const types = await Api(ctx).type.getAllByType(slug);
     return { props: { department, types } };
