@@ -6,4 +6,8 @@ export const ProductApi = (instance: AxiosInstance) => ({
     const { data } = await instance.get<IProduct[]>(`/product/category/${slug}`);
     return data;
   },
+  async getAllById(id: string) {
+    const { data } = await instance.get<IProduct[]>(`/product/${id}`);
+    return data;
+  },
 });
