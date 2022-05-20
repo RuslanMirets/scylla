@@ -11,11 +11,15 @@ interface IProps {
 export const CartOrder: React.FC<IProps> = ({ cart }) => {
   return (
     <Box className={styles.root}>
-      <Typography className={styles.title} variant="h5">Оформление заказа</Typography>
+      <Typography className={styles.title} variant="h5">
+        Оформление заказа
+      </Typography>
       <Paper className={styles.paper}>
-        {cart.map((item) => (
-          <CartItem key={item.id} item={item} />
-        ))}
+        <Box className={styles.items}>
+          {cart.map((item) => (
+            <CartItem key={item.id} item={item} />
+          ))}
+        </Box>
       </Paper>
     </Box>
   );

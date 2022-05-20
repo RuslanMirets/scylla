@@ -8,4 +8,16 @@
   .paper {
     padding: 20px;
   }
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  hr {
+    &:last-child {
+      display: none;
+    }
+  }
 }

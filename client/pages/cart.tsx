@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { NextPage } from 'next';
 import React from 'react';
 import { CartForm } from '../components/CartForm';
@@ -13,7 +13,10 @@ const Cart: NextPage = () => {
   if (cart.length === 0) {
     return (
       <MainLayout title="Корзина">
-        <h1>Корзина пуста</h1>
+        <Box className="empty-cart">
+          <img src="/assets/images/empty-cart.png" alt="Пустая корзина" />
+          <Typography variant="h6">Корзина пуста</Typography>
+        </Box>
       </MainLayout>
     );
   }
