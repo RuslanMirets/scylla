@@ -14,3 +14,8 @@ export const RegisterFormSchema = yup
     name: yup.string().required('Имя обязательно'),
   })
   .concat(LoginFormSchema);
+
+export const CartFormSchema = yup.object().shape({
+  email: yup.string().email('Некорректная почта').required('Почта обязательная'),
+  phone: yup.string().required('Телефон обязательный'),
+});
