@@ -1,5 +1,7 @@
 import { Card, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
 import React from 'react';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { addToCart, selectCartData } from '../../redux/slices/cart';
 import { IProduct } from '../../types/product';
 import { productImage } from '../../utils/constants';
 import { LinkItem } from '../LinkItem';
@@ -10,9 +12,14 @@ interface IProps {
 }
 
 export const ProductCard: React.FC<IProps> = ({ product }) => {
+  const dispatch = useAppDispatch();
+  const cart = useAppSelector(selectCartData);
+
   const handleAddToCart = () => {
-    console.log('ok');
+    dispatch(addToCart(product));
   };
+
+  const itemExists = cart.find((item) => item.id === product.id);
 
   return (
     <Card className={styles.root}>
@@ -28,13 +35,18 @@ export const ProductCard: React.FC<IProps> = ({ product }) => {
       </CardContent>
       <CardActions className={styles.actions}>
         <Typography className={styles.price}>{product.price} ₽</Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          disabled={product.inStock > 0 ? false : true}
-          onClick={handleAddToCart}>
-          Купить
-        </Button>
+        {itemExists ? (
+          <LinkItem href="/cart">
+            <Button variant="outlined">В корзину</Button>
+          </LinkItem>
+        ) : (
+          <Button
+            variant="contained"
+            disabled={product.inStock > 0 ? false : true}
+            onClick={handleAddToCart}>
+            Купить
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

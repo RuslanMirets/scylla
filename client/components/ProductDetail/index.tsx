@@ -12,12 +12,18 @@ import { IProduct } from '../../types/product';
 import { productImage } from '../../utils/constants';
 import classnames from 'classnames';
 import styles from './ProductDetail.module.scss';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { addToCart, selectCartData } from '../../redux/slices/cart';
+import { LinkItem } from '../LinkItem';
 
 interface IProps {
   product: IProduct;
 }
 
 export const ProductDetail: React.FC<IProps> = ({ product }) => {
+  const dispatch = useAppDispatch();
+  const cart = useAppSelector(selectCartData);
+
   const [image, setImage] = React.useState(0);
   const isActiveImage = (index: any) => {
     if (image === index) return styles.active;
@@ -29,6 +35,12 @@ export const ProductDetail: React.FC<IProps> = ({ product }) => {
     if (size === index) return styles.active;
     return '';
   };
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+  };
+
+  const itemExists = cart.find((item) => item.id === product.id);
 
   return (
     <Paper className={styles.root}>
@@ -91,12 +103,21 @@ export const ProductDetail: React.FC<IProps> = ({ product }) => {
               ))}
             </Box>
           </Box>
-          <Button
-            className={styles.btn}
-            variant="contained"
-            disabled={product.inStock > 0 ? false : true}>
-            Добавить в корзину
-          </Button>
+          {itemExists ? (
+            <LinkItem href="/cart">
+              <Button className={styles.btn} variant="outlined">
+                Перейти в корзину
+              </Button>
+            </LinkItem>
+          ) : (
+            <Button
+              className={styles.btn}
+              variant="contained"
+              onClick={handleAddToCart}
+              disabled={product.inStock > 0 ? false : true}>
+              Добавить в корзину
+            </Button>
+          )}
         </Box>
       </Box>
       <Typography className={styles.description} variant="body1">

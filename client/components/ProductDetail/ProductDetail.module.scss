@@ -44,7 +44,7 @@
           object-position: 0 30%;
         }
         &.active {
-          border-color: #26a69a;
+          border-color: #5c6bc0;
         }
       }
     }
@@ -58,7 +58,7 @@
 
     .price {
       font-weight: 500;
-      color: #26a69a;
+      color: #5c6bc0;
     }
 
     .count {
@@ -103,12 +103,16 @@
         cursor: pointer;
         transition: all 0.3s;
         &.active {
-          border-color: #26a69a;
+          border-color: #5c6bc0;
         }
       }
     }
     .btn {
+      width: 100%;
       margin-top: 30px;
+      a {
+        display: block;
+      }
     }
   }
 }

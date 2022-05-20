@@ -13,6 +13,7 @@ import { logout, selectUserData } from '../../redux/slices/user';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { destroyCookie } from 'nookies';
 import { selectDepartmentsData } from '../../redux/slices/department';
+import { selectCartData } from '../../redux/slices/cart';
 
 const pages = [
   { title: 'Главная', href: '/' },
@@ -22,7 +23,8 @@ const pages = [
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUserData);
-  const departments = useAppSelector(selectDepartmentsData)
+  const departments = useAppSelector(selectDepartmentsData);
+  const cart = useAppSelector(selectCartData);
 
   const [open, setOpen] = React.useState(false);
   const toggleAuthDialog = () => {
@@ -33,6 +35,7 @@ export const Header: React.FC = () => {
   };
 
   const handleLogout = () => {
+    //@ts-ignore
     destroyCookie(null, 'scyllaToken', null);
     dispatch(logout());
   };
@@ -65,7 +68,7 @@ export const Header: React.FC = () => {
           <Box className={styles.actions}>
             <LinkItem href="/cart">
               <IconButton>
-                <Badge badgeContent={99} color="error">
+                <Badge badgeContent={`${cart.length}`} color="error">
                   <ShoppingBasketIcon />
                 </Badge>
               </IconButton>
