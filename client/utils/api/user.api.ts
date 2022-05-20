@@ -1,4 +1,4 @@
-import { IUser, IUserRegister, IUserLogin } from './../../types/user';
+import { IUser, IUserRegister, IUserLogin } from '../../types/user';
 import { AxiosInstance } from 'axios';
 
 export const UserApi = (instance: AxiosInstance) => ({
