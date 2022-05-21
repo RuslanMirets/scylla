@@ -1,18 +1,24 @@
-import { orderReducer } from './slices/order';
 import { cartReducer } from './slices/cart';
+import { productReducer } from './slices/product';
+import { categoryReducer } from './slices/category';
+import { departmentReducer } from './slices/department';
+import { alertReducer } from './slices/alert';
+import { userReducer } from './slices/user';
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
-import { departmentReducer } from './slices/department';
-import { userReducer } from './slices/user';
+import { typeReducer } from './slices/type';
 import { nextReduxCookieMiddleware } from 'next-redux-cookie-wrapper';
 
 export function makeStore() {
   return configureStore({
     reducer: {
       user: userReducer,
+      alert: alertReducer,
       department: departmentReducer,
+      type: typeReducer,
+      category: categoryReducer,
+      product: productReducer,
       cart: cartReducer,
-      order: orderReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().prepend(
@@ -30,6 +36,7 @@ export const store = makeStore();
 export type RootStore = ReturnType<typeof makeStore>;
 export type RootState = ReturnType<RootStore['getState']>;
 export type AppDispatch = typeof store.dispatch;
+
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,

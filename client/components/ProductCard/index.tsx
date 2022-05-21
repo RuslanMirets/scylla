@@ -1,7 +1,6 @@
 import { Card, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
 import React from 'react';
-import { useAppSelector } from '../../redux/hooks';
-import { selectCartData } from '../../redux/slices/cart';
+import { useAppSelector } from '../../store/hooks';
 import { IProduct } from '../../types/product';
 import { productImage } from '../../utils/constants';
 import { LinkItem } from '../LinkItem';
@@ -13,9 +12,9 @@ interface IProps {
 }
 
 export const ProductCard: React.FC<IProps> = ({ product }) => {
-  const cart = useAppSelector(selectCartData);
+  const { cartData } = useAppSelector((state) => state.cart);
 
-  const itemExists = cart.find((item) => item.id === product.id);
+  const itemExists = cartData.find((item) => item.id === product.id);
 
   const [open, setOpen] = React.useState(false);
   const toggleSizeDialog = () => {
@@ -54,7 +53,7 @@ export const ProductCard: React.FC<IProps> = ({ product }) => {
           )}
         </CardActions>
       </Card>
-      <SizeDialog open={open} onClose={toggleSizeDialog} product={product} />
+      <SizeDialog open={open} onClose={toggleSizeDialog} product={product} cartData={cartData} />
     </>
   );
 };

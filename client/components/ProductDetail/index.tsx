@@ -1,28 +1,20 @@
-import {
-  Box,
-  Button,
-  CardActionArea,
-  ImageList,
-  ImageListItem,
-  Paper,
-  Typography,
-} from '@mui/material';
+import { Box, Button, CardActionArea, Paper, Typography } from '@mui/material';
 import React from 'react';
 import { IProduct } from '../../types/product';
 import { productImage } from '../../utils/constants';
 import classnames from 'classnames';
 import styles from './ProductDetail.module.scss';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { addToCart, selectCartData } from '../../redux/slices/cart';
 import { LinkItem } from '../LinkItem';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { addToCart } from '../../store/actions/cart';
 
 interface IProps {
   product: IProduct;
 }
 
 export const ProductDetail: React.FC<IProps> = ({ product }) => {
+  const { cartData } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
-  const cart = useAppSelector(selectCartData);
 
   const [image, setImage] = React.useState(0);
   const isActiveImage = (index: any) => {
@@ -37,10 +29,10 @@ export const ProductDetail: React.FC<IProps> = ({ product }) => {
   };
 
   const handleAddToCart = () => {
-    dispatch(addToCart({ ...product, selectedSize: size }));
+    dispatch(addToCart({ ...product, selectedSize: size }, cartData));
   };
 
-  const itemExists = cart.find((item) => item.id === product.id);
+  const itemExists = cartData.find((item) => item.id === product.id);
 
   return (
     <Paper className={styles.root}>

@@ -1,28 +1,27 @@
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import React from 'react';
 import { ProductCard } from '../../../../components/ProductCard';
 import MainLayout from '../../../../layouts/MainLayout';
-import { ICategory } from '../../../../types/category';
-import { IProduct } from '../../../../types/product';
-import { Api } from '../../../../utils/api';
+import { wrapper } from '../../../../store';
+import { getCategoryBySlug } from '../../../../store/actions/category';
+import { getProductsByCategory } from '../../../../store/actions/product';
+import { useAppSelector } from '../../../../store/hooks';
 
 interface ICtxParams extends ParsedUrlQuery {
   slug: string;
 }
 
-interface IParams {
-  category: ICategory;
-  products: IProduct[];
-}
+const Product: NextPage = () => {
+  const { category } = useAppSelector((state) => state.category);
+  const { products } = useAppSelector((state) => state.product);
 
-const Product: NextPage<IParams> = ({ category, products }) => {
   return (
-    <MainLayout title={category.description}>
+    <MainLayout title={category?.description}>
       <Typography variant="h4" sx={{ marginBottom: '30px' }}>
-        {category.name}
+        {category?.name}
       </Typography>
       <Box className="product-list">
         {products.map((product) => (
@@ -33,16 +32,11 @@ const Product: NextPage<IParams> = ({ category, products }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  try {
-    const { slug } = ctx.params as ICtxParams;
-    const category = await Api(ctx).category.getOneBySlug(slug);
-    const products = await Api(ctx).product.getAllByCategory(slug);
-    return { props: { category, products } };
-  } catch (error: any) {
-    console.log(error.response.data.message);
-    return { props: {} };
-  }
-};
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
+  const { slug } = context.params as ICtxParams;
+  await store.dispatch(getCategoryBySlug(slug));
+  await store.dispatch(getProductsByCategory(slug));
+  return { props: {} };
+});
 
 export default Product;

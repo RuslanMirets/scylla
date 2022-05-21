@@ -4,12 +4,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginFormSchema } from '../../../utils/validations';
 import { FormField } from '../../FormField';
 import { Button } from '@mui/material';
-import { useAppDispatch } from '../../../redux/hooks';
-import { Api } from '../../../utils/api';
-import { setCookie } from 'nookies';
-import { login } from '../../../redux/slices/user';
+import { useAppDispatch } from '../../../store/hooks';
+import { login } from '../../../store/actions/user';
 
-export const LoginForm: React.FC= () => {
+export const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const methods = useForm({
@@ -17,17 +15,8 @@ export const LoginForm: React.FC= () => {
     resolver: yupResolver(LoginFormSchema),
   });
 
-  const onSubmit = async (dto: any) => {
-    try {
-      const data = await Api().user.login(dto);
-      setCookie(null, 'scyllaToken', data.token, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/',
-      });
-      dispatch(login(data));
-    } catch (error) {
-      console.log(error);
-    }
+  const onSubmit = (data: any) => {
+    dispatch(login(data));
   };
 
   return (

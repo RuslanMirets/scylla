@@ -1,31 +1,30 @@
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { GetServerSideProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import React from 'react';
 import { CatalogCard } from '../../../components/CatalogCard';
 import MainLayout from '../../../layouts/MainLayout';
-import { ICategory } from '../../../types/category';
-import { IDepartment } from '../../../types/department';
-import { IType } from '../../../types/type';
-import { Api } from '../../../utils/api';
+import { wrapper } from '../../../store';
+import { getCategoriesByType } from '../../../store/actions/category';
+import { getDepartmentByType } from '../../../store/actions/department';
+import { getTypeBySlug } from '../../../store/actions/type';
+import { useAppSelector } from '../../../store/hooks';
+
 import { categoryImage } from '../../../utils/constants';
 
 interface ICtxParams extends ParsedUrlQuery {
   slug: string;
 }
 
-interface IParams {
-  type: IType;
-  categories: ICategory[];
-  department: IDepartment;
-}
+const Category: React.FC = () => {
+  const { type } = useAppSelector((state) => state.type);
+  const { categories } = useAppSelector((state) => state.category);
+  const { department } = useAppSelector((state) => state.department);
 
-const Category: React.FC<IParams> = ({ type, categories, department }) => {
   return (
-    <MainLayout title={type.description}>
+    <MainLayout title={type?.description}>
       <Typography variant="h4" sx={{ marginBottom: '30px' }}>
-        {type.name}
+        {type?.name}
       </Typography>
       <Box className="catalog-list">
         {categories.map((category) => (
@@ -41,17 +40,12 @@ const Category: React.FC<IParams> = ({ type, categories, department }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  try {
-    const { slug } = ctx.params as ICtxParams;
-    const type = await Api(ctx).type.getOneBySlug(slug);
-    const categories = await Api(ctx).category.getAllByType(slug);
-    const department = await Api(ctx).department.getOneByType(slug);
-    return { props: { type, categories, department } };
-  } catch (error: any) {
-    console.log(error.response.data.message);
-    return { props: {} };
-  }
-};
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
+  const { slug } = context.params as ICtxParams;
+  await store.dispatch(getTypeBySlug(slug));
+  await store.dispatch(getCategoriesByType(slug));
+  await store.dispatch(getDepartmentByType(slug));
+  return { props: {} };
+});
 
 export default Category;

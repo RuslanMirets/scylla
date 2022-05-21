@@ -3,30 +3,30 @@ import { Button } from '@mui/material';
 import { setCookie } from 'nookies';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useAppDispatch } from '../../../redux/hooks';
-import { login } from '../../../redux/slices/user';
-import { Api } from '../../../utils/api';
+// import { useAppDispatch } from '../../../redux/hooks';
+// import { login } from '../../../redux/slices/user';
+// import { Api } from '../../../utils/api';
 import { RegisterFormSchema } from '../../../utils/validations';
 import { FormField } from '../../FormField';
 
 export const RegisterForm: React.FC = () => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const methods = useForm({
     mode: 'onChange',
     resolver: yupResolver(RegisterFormSchema),
   });
 
   const onSubmit = async (dto: any) => {
-    try {
-      const data = await Api().user.register(dto);
-      setCookie(null, 'scyllaToken', data.token, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/',
-      });
-      dispatch(login(data));
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const data = await Api().user.register(dto);
+    //   setCookie(null, 'scyllaToken', data.token, {
+    //     maxAge: 30 * 24 * 60 * 60,
+    //     path: '/',
+    //   });
+    //   dispatch(login(data));
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (

@@ -13,16 +13,17 @@ import React from 'react';
 import styles from './SizeDialog.module.scss';
 import { IProduct } from '../../types/product';
 import classnames from 'classnames';
-import { useAppDispatch } from '../../redux/hooks';
-import { addToCart } from '../../redux/slices/cart';
+import { useAppDispatch } from '../../store/hooks';
+import { addToCart } from '../../store/actions/cart';
 
 interface IProps {
   open: boolean;
   onClose: () => void;
   product: IProduct;
+  cartData: IProduct[];
 }
 
-export const SizeDialog: React.FC<IProps> = ({ open, onClose, product }) => {
+export const SizeDialog: React.FC<IProps> = ({ open, onClose, product, cartData }) => {
   const dispatch = useAppDispatch();
 
   const [size, setSize] = React.useState(product.size[0].value);
@@ -32,7 +33,7 @@ export const SizeDialog: React.FC<IProps> = ({ open, onClose, product }) => {
   };
 
   const handleAddToCart = () => {
-    dispatch(addToCart({ ...product, selectedSize: size }));
+    dispatch(addToCart(product, cartData));
     onClose();
   };
 

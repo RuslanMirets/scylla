@@ -9,17 +9,16 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import React from 'react';
 import MainLayout from '../layouts/MainLayout';
-import { IUser } from '../types/user';
-import { Api } from '../utils/api';
+import { wrapper } from '../store';
+import { getUsers } from '../store/actions/user';
+import { useAppSelector } from '../store/hooks';
 
-interface IProps {
-  users: IUser[];
-}
+const Users: NextPage = () => {
+  const { users } = useAppSelector((state) => state.user);
 
-const Users: NextPage<IProps> = ({ users }) => {
   return (
     <MainLayout title="Пользователи">
       <Typography variant="h5" sx={{ marginBottom: '20px' }}>
@@ -50,14 +49,9 @@ const Users: NextPage<IProps> = ({ users }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  try {
-    const users = await Api(ctx).user.getAll();
-    return { props: { users } };
-  } catch (error: any) {
-    console.log(error.response.data.message);
-    return { props: {} };
-  }
-};
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
+  await store.dispatch(getUsers());
+  return { props: {} };
+});
 
 export default Users;

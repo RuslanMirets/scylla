@@ -1,40 +1,34 @@
 import { Typography } from '@mui/material';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import React from 'react';
 import { ProductDetail } from '../../components/ProductDetail';
 import MainLayout from '../../layouts/MainLayout';
-import { IProduct } from '../../types/product';
-import { Api } from '../../utils/api';
+import { wrapper } from '../../store';
+import { getProductById } from '../../store/actions/product';
+import { useAppSelector } from '../../store/hooks';
 
 interface ICtxParams extends ParsedUrlQuery {
   id: string;
 }
 
-interface IParams {
-  product: IProduct;
-}
+const ProductDetailPage: NextPage = () => {
+  const { product } = useAppSelector((state) => state.product);
 
-const ProductDetailPage: NextPage<IParams> = ({ product }) => {
   return (
-    <MainLayout title={product.title}>
+    <MainLayout title={product?.title}>
       <Typography variant="h4" sx={{ marginBottom: '20px' }}>
-        {product.title}
+        {product?.title}
       </Typography>
-      <ProductDetail product={product} />
+      <ProductDetail product={product!} />
     </MainLayout>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  try {
-    const { id } = ctx.params as ICtxParams;
-    const product = await Api(ctx).product.getOneById(id);
-    return { props: { product } };
-  } catch (error: any) {
-    console.log(error.response.data.message);
-    return { props: {} };
-  }
-};
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
+  const { id } = context.params as ICtxParams;
+  await store.dispatch(getProductById(id));
+  return { props: {} };
+});
 
 export default ProductDetailPage;

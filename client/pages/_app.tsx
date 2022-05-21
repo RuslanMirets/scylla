@@ -1,11 +1,10 @@
 import '../styles/globals.scss';
 import type { AppProps } from 'next/app';
-import { wrapper } from '../redux/store';
-import { login } from '../redux/slices/user';
-import { Api } from '../utils/api';
 import { ThemeProvider } from '@mui/material';
 import { theme } from '../theme';
-import { setDepartment } from '../redux/slices/department';
+import { wrapper } from '../store';
+import { getMe } from '../store/actions/user';
+import { getDepartments } from '../store/actions/department';
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -15,19 +14,10 @@ function App({ Component, pageProps }: AppProps) {
   );
 }
 
-App.getInitialProps = wrapper.getInitialAppProps((store) => async ({ ctx, Component }) => {
-  try {
-    const userData = await Api(ctx).user.getMe();
-    store.dispatch(login(userData));
-    const departments = await Api(ctx).department.getAll();
-    store.dispatch(setDepartment(departments));
-  } catch (error: any) {
-    console.log(error.response.data.message);
-  }
-
-  return {
-    pageProps: Component.getInitialProps ? await Component.getInitialProps({ ...ctx, store }) : {},
-  };
+App.getInitialProps = wrapper.getInitialAppProps((store) => async ({ ctx }) => {
+  await store.dispatch(getMe(ctx));
+  await store.dispatch(getDepartments());
+  return { pageProps: {} };
 });
 
 export default wrapper.withRedux(App);
