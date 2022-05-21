@@ -1,3 +1,4 @@
+import { orderReducer } from './slices/order';
 import { cartReducer } from './slices/cart';
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
@@ -11,6 +12,7 @@ export function makeStore() {
       user: userReducer,
       department: departmentReducer,
       cart: cartReducer,
+      order: orderReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().prepend(

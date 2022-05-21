@@ -17,9 +17,7 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const itemExists = state.cartData.find((item) => item.id === action.payload.id);
-      if (itemExists) {
-        itemExists.quantity++;
-      } else {
+      if (!itemExists) {
         state.cartData.push({ ...action.payload, quantity: 1 });
       }
     },

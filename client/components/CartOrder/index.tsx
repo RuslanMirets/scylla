@@ -7,21 +7,10 @@ import styles from './CartOrder.module.scss';
 
 interface IProps {
   cart: IProduct[];
+  total: number;
 }
 
-export const CartOrder: React.FC<IProps> = ({ cart }) => {
-  const [total, setTotal] = React.useState(0);
-
-  React.useEffect(() => {
-    const getTotal = () => {
-      const res = cart.reduce((prev, item) => {
-        return prev + item.price * item.quantity;
-      }, 0);
-      setTotal(res);
-    };
-    getTotal();
-  }, [cart]);
-
+export const CartOrder: React.FC<IProps> = ({ cart, total }) => {
   const [open, setOpen] = React.useState(false);
   const toggleClearDialog = () => {
     setOpen(!open);

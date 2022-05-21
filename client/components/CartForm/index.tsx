@@ -2,25 +2,57 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { cartSlice, selectCartData } from '../../redux/slices/cart';
+import { createOrder } from '../../redux/slices/order';
 import { selectUserData } from '../../redux/slices/user';
+import { Api } from '../../utils/api';
 import { CartFormSchema } from '../../utils/validations';
 import { FormField } from '../FormField';
 import styles from './CartForm.module.scss';
 
-export const CartForm: React.FC = () => {
+interface IProps {
+  total: number;
+  callback: any;
+  setCallback: any;
+}
+
+export const CartForm: React.FC<IProps> = ({ total, callback, setCallback }) => {
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUserData);
+  const cartData = useAppSelector(selectCartData);
 
   const methods = useForm({
     mode: 'onChange',
     resolver: yupResolver(CartFormSchema),
-    defaultValues: {
-      email: user?.email,
-    },
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (orderData: any) => {
+    try {
+      let newCart = [];
+      for (const item of cartData) {
+        const response = await Api().product.getOneById(item.id);
+        const { inStock } = response;
+        if (inStock - item.quantity >= 0) {
+          newCart.push(item);
+        }
+      }
+      if (newCart.length < cartData.length) {
+        setCallback(!callback);
+        console.log('Товара нет на складе или его недостаточное количество');
+      }
+      const newOrder = {
+        userId: user?.id,
+        phone: orderData.phone,
+        cart: cartData,
+        total,
+      };
+      const response = await Api().order.create(newOrder);
+      dispatch(createOrder(response));
+      // dispatch(cartSlice.actions.addToCart([]));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -31,7 +63,6 @@ export const CartForm: React.FC = () => {
       <Paper className={styles.paper}>
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <FormField type="text" label="Email" name="email" />
             <FormField type="tel" label="Телефон" name="phone" />
             <FormField type="text" label="Комментарий" name="comment" maxRows={6} multiline />
             <Button

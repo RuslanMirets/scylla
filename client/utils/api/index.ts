@@ -1,3 +1,4 @@
+import { OrderApi } from './order.api';
 import { ProductApi } from './product.api';
 import { CategoryApi } from './category.api';
 import { TypeApi } from './type.api';
@@ -13,6 +14,7 @@ export type ApiReturnType = {
   type: ReturnType<typeof TypeApi>;
   category: ReturnType<typeof CategoryApi>;
   product: ReturnType<typeof ProductApi>;
+  order: ReturnType<typeof OrderApi>;
 };
 
 export const Api = (ctx?: NextPageContext | GetServerSidePropsContext): ApiReturnType => {
@@ -32,6 +34,7 @@ export const Api = (ctx?: NextPageContext | GetServerSidePropsContext): ApiRetur
     type: TypeApi,
     category: CategoryApi,
     product: ProductApi,
+    order: OrderApi,
   };
 
   const result = Object.entries(apis).reduce((prev, [key, f]) => {
