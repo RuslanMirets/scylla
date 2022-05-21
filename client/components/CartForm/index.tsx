@@ -3,7 +3,7 @@ import { Box, Button, Paper, Typography } from '@mui/material';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { cartSlice, selectCartData } from '../../redux/slices/cart';
+import { clearCart, selectCartData } from '../../redux/slices/cart';
 import { createOrder } from '../../redux/slices/order';
 import { selectUserData } from '../../redux/slices/user';
 import { Api } from '../../utils/api';
@@ -49,7 +49,8 @@ export const CartForm: React.FC<IProps> = ({ total, callback, setCallback }) => 
       };
       const response = await Api().order.create(newOrder);
       dispatch(createOrder(response));
-      // dispatch(cartSlice.actions.addToCart([]));
+      dispatch(clearCart());
+      methods.reset();
     } catch (error) {
       console.log(error);
     }
