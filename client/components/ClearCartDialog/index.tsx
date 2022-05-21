@@ -11,6 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import React from 'react';
 import styles from './ClearCartDialog.module.scss';
 import { useAppDispatch } from '../../store/hooks';
+import { clearCart } from '../../store/slices/cart';
 
 interface IProps {
   open: boolean;
@@ -21,7 +22,7 @@ export const ClearCartDialog: React.FC<IProps> = ({ open, onClose }) => {
   const dispatch = useAppDispatch();
 
   const handleClear = () => {
-    // dispatch(clearCart());
+    dispatch(clearCart());
     onClose();
   };
 

@@ -8,6 +8,7 @@ import { productImage } from '../../utils/constants';
 import styles from './CartItem.module.scss';
 import { LinkItem } from '../LinkItem';
 import { useAppDispatch } from '../../store/hooks';
+import { decrementQuantity, incrementQuantity, removeFromCart } from '../../store/slices/cart';
 
 interface IProps {
   item: IProduct;
@@ -16,11 +17,17 @@ interface IProps {
 export const CartItem: React.FC<IProps> = ({ item }) => {
   const dispatch = useAppDispatch();
 
-  const handleDecrease = () => {};
+  const handleDecrease = () => {
+    dispatch(decrementQuantity(item.id));
+  };
 
-  const handleIncrease = () => {};
+  const handleIncrease = () => {
+    dispatch(incrementQuantity(item.id));
+  };
 
-  const handleRemove = () => {};
+  const handleRemove = () => {
+    dispatch(removeFromCart(item.id));
+  };
 
   return (
     <>
