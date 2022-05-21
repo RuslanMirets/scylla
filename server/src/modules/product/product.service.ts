@@ -73,4 +73,14 @@ export class ProductService {
       include: { all: true },
     });
   }
+
+  async sold(id: number, quantity: number, oldInStock: number, oldSold: number) {
+    return await this.productRepository.update(
+      {
+        inStock: oldInStock - quantity,
+        sold: quantity + oldSold,
+      },
+      { where: { id: id } },
+    );
+  }
 }

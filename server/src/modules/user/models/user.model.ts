@@ -1,4 +1,5 @@
-import { Table, Model, Column, DataType, BelongsToMany } from 'sequelize-typescript';
+import { Table, Model, Column, DataType, BelongsToMany, HasMany } from 'sequelize-typescript';
+import { Order } from 'src/modules/order/models/order.model';
 import { Role } from 'src/modules/role/models/role.model';
 import { UserRole } from 'src/modules/role/models/user-role.model';
 
@@ -21,4 +22,7 @@ export class User extends Model<User> {
 
   @BelongsToMany(() => Role, () => UserRole)
   role: Role[];
+
+  @HasMany(() => Order, { onDelete: 'CASCADE' })
+  order: Order;
 }
