@@ -1,0 +1,28 @@
+.root {
+  flex-basis: 60%;
+
+  .title {
+    margin-bottom: 20px;
+  }
+
+  .paper {
+    padding: 20px;
+  }
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .total {
+    color: #5c6bc0;
+  }
+}

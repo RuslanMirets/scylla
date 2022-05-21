@@ -1,0 +1,17 @@
+.root {
+  flex-basis: 40%;
+
+  .title {
+    margin-bottom: 20px;
+  }
+
+  .paper {
+    padding: 20px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
