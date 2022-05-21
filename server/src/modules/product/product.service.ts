@@ -69,7 +69,8 @@ export class ProductService {
 
   async findAllByCategory(slug: string): Promise<Product[]> {
     return await this.productRepository.findAll<Product>({
-      include: [{ model: Category, where: { slug: { [Op.eq]: slug } } }],
+      where: { '$category.slug$': { [Op.eq]: slug } },
+      include: { all: true },
     });
   }
 }

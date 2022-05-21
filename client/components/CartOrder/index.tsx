@@ -2,6 +2,7 @@ import { Box, Button, Paper, Typography } from '@mui/material';
 import React from 'react';
 import { IProduct } from '../../types/product';
 import { CartItem } from '../CartItem';
+import { ClearCartDialog } from '../ClearCartDialog';
 import styles from './CartOrder.module.scss';
 
 interface IProps {
@@ -21,6 +22,14 @@ export const CartOrder: React.FC<IProps> = ({ cart }) => {
     getTotal();
   }, [cart]);
 
+  const [open, setOpen] = React.useState(false);
+  const toggleClearDialog = () => {
+    setOpen(!open);
+  };
+  const openClearDialog = () => {
+    toggleClearDialog();
+  };
+
   return (
     <Box className={styles.root}>
       <Typography className={styles.title} variant="h5">
@@ -33,12 +42,15 @@ export const CartOrder: React.FC<IProps> = ({ cart }) => {
           ))}
         </Box>
         <Box className={styles.foot}>
-          <Button color="error">Очистить корзину</Button>
+          <Button color="error" onClick={openClearDialog}>
+            Очистить корзину
+          </Button>
           <Typography className={styles.total} variant="h6">
             Всего: {total} ₽
           </Typography>
         </Box>
       </Paper>
+      <ClearCartDialog open={open} onClose={toggleClearDialog} />
     </Box>
   );
 };

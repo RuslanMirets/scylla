@@ -19,4 +19,5 @@ export interface IProduct {
   size: ISize[];
   images: IImage[];
   quantity: number;
+  selectedSize: string;
 }

@@ -10,8 +10,6 @@ import { selectCartData } from '../redux/slices/cart';
 const Cart: NextPage = () => {
   const cart = useAppSelector(selectCartData);
 
-  console.log(cart);
-
   // if (cart.length === 0) {
   //   return (
   //     <MainLayout title="Корзина">

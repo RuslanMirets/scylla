@@ -30,14 +30,14 @@ export const ProductDetail: React.FC<IProps> = ({ product }) => {
     return '';
   };
 
-  const [size, setSize] = React.useState(0);
+  const [size, setSize] = React.useState(product.size[0].value);
   const isActiveSize = (index: any) => {
     if (size === index) return styles.active;
     return '';
   };
 
   const handleAddToCart = () => {
-    dispatch(addToCart(product));
+    dispatch(addToCart({ ...product, selectedSize: size }));
   };
 
   const itemExists = cart.find((item) => item.id === product.id);
@@ -91,13 +91,13 @@ export const ProductDetail: React.FC<IProps> = ({ product }) => {
           <Box>
             Размеры:
             <Box className={styles.sizeItems}>
-              {product.size.map((item, index) => (
+              {product.size.map((item) => (
                 <Typography
                   variant="subtitle1"
                   component="span"
-                  className={classnames(styles.sizeItem, isActiveSize(index))}
-                  key={index}
-                  onClick={() => setSize(index)}>
+                  className={classnames(styles.sizeItem, isActiveSize(item.value))}
+                  key={item.value}
+                  onClick={() => setSize(item.value)}>
                   {item.value}
                 </Typography>
               ))}

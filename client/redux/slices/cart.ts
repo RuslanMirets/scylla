@@ -40,6 +40,9 @@ export const cartSlice = createSlice({
       const index = state.cartData.findIndex((item) => item.id === action.payload);
       state.cartData.splice(index, 1);
     },
+    clearCart: () => {
+      return initialState;
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
@@ -48,7 +51,7 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, incrementQuantity, decrementQuantity, removeFromCart } =
+export const { addToCart, incrementQuantity, decrementQuantity, removeFromCart, clearCart } =
   cartSlice.actions;
 
 export const selectCartData = (state: RootState) => state.cart.cartData;
