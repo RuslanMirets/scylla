@@ -8,7 +8,6 @@ import { alertSlice } from '../../store/slices/alert';
 import { clearCart } from '../../store/slices/cart';
 import { CartFormSchema } from '../../utils/validations';
 import { FormField } from '../FormField';
-import { LinkItem } from '../LinkItem';
 import styles from './CartForm.module.scss';
 
 interface IProps {
