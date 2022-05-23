@@ -1,5 +1,15 @@
-import { CartDataDto } from './../dto/cart-data.dto';
-import { Table, Model, Column, DataType, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import { OrderProduct } from './../../product/models/order-product.model';
+import { Product } from './../../product/models/product.model';
+import {
+  Table,
+  Model,
+  Column,
+  DataType,
+  BelongsTo,
+  ForeignKey,
+  BelongsToMany,
+  HasMany,
+} from 'sequelize-typescript';
 import { User } from 'src/modules/user/models/user.model';
 
 @Table({ tableName: 'Order' })
@@ -10,8 +20,8 @@ export class Order extends Model<Order> {
   @Column({ type: DataType.STRING, allowNull: false })
   phone: string;
 
-  @Column({ type: DataType.JSONB, allowNull: false })
-  cart: CartDataDto[];
+  @Column({ type: DataType.STRING, allowNull: false })
+  comment: string;
 
   @Column({ type: DataType.FLOAT, allowNull: false })
   total: number;
@@ -20,6 +30,12 @@ export class Order extends Model<Order> {
   @Column({ type: DataType.INTEGER, allowNull: false })
   userId: number;
 
-  @BelongsTo(() => User, { onDelete: 'CASCADE' })
+  @BelongsTo(() => User)
   user: User;
+
+  @BelongsToMany(() => Product, () => OrderProduct)
+  product: Product[];
+
+  @HasMany(() => OrderProduct)
+  quantity: number;
 }

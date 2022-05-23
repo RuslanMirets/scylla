@@ -23,6 +23,6 @@ export class User extends Model<User> {
   @BelongsToMany(() => Role, () => UserRole)
   role: Role[];
 
-  @HasMany(() => Order, { onDelete: 'CASCADE' })
+  @HasMany(() => Order)
   order: Order;
 }

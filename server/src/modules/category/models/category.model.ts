@@ -31,9 +31,9 @@ export class Category extends Model<Category> {
   @Column({ type: DataType.INTEGER, allowNull: false })
   typeId: number;
 
-  @BelongsTo(() => Type, { onDelete: 'CASCADE' })
+  @BelongsTo(() => Type)
   type: Type;
 
-  @HasMany(() => Product, { onDelete: 'CASCADE' })
+  @HasMany(() => Product)
   product: Product;
 }

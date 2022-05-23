@@ -9,6 +9,6 @@ export class Brand extends Model<Brand> {
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   name: string;
 
-  @HasMany(() => Product, { onDelete: 'CASCADE' })
+  @HasMany(() => Product)
   product: Product;
 }

@@ -74,6 +74,10 @@ export class ProductService {
     });
   }
 
+  async findAllById(id: number): Promise<Product[]> {
+    return await this.productRepository.findAll({ where: { id } });
+  }
+
   async sold(id: number, quantity: number, oldInStock: number, oldSold: number) {
     return await this.productRepository.update(
       {

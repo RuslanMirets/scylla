@@ -1,3 +1,4 @@
+import { OrderProduct } from './order-product.model';
 import { ProductColor } from './../../color/models/product-color';
 import { Color } from './../../color/models/color.model';
 import { Brand } from './../../brand/models/brand.model';
@@ -13,6 +14,7 @@ import {
 } from 'sequelize-typescript';
 import { Size } from 'src/modules/size/models/size.model';
 import { ProductSize } from 'src/modules/size/models/product-size.model';
+import { Order } from 'src/modules/order/models/order.model';
 
 @Table({ tableName: 'Product' })
 export class Product extends Model<Product> {
@@ -41,14 +43,14 @@ export class Product extends Model<Product> {
   @Column({ type: DataType.INTEGER, allowNull: false })
   categoryId: number;
 
-  @BelongsTo(() => Category, { onDelete: 'CASCADE' })
+  @BelongsTo(() => Category)
   category: Category;
 
   @ForeignKey(() => Brand)
   @Column({ type: DataType.INTEGER, allowNull: false })
   brandId: number;
 
-  @BelongsTo(() => Brand, { onDelete: 'CASCADE' })
+  @BelongsTo(() => Brand)
   brand: Brand;
 
   @BelongsToMany(() => Size, () => ProductSize)
@@ -56,4 +58,7 @@ export class Product extends Model<Product> {
 
   @BelongsToMany(() => Color, () => ProductColor)
   color: Color[];
+
+  @BelongsToMany(() => Order, () => OrderProduct)
+  order: Order[];
 }

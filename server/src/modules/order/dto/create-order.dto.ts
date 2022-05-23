@@ -1,7 +1,6 @@
-import { CartDataDto } from './cart-data.dto';
-
 export class CreateOrderDto {
   readonly phone: string;
-  readonly cart: CartDataDto[];
+  readonly comment: string;
   readonly total: number;
+  readonly quantity: any[];
 }
