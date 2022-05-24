@@ -5,5 +5,8 @@ export interface IOrder {
   userId: number;
   phone: string;
   comment: string;
-  cart: IProduct[];
+  cart?: IProduct[];
+  productId: number[];
+  quantity: number[];
+  size: string[];
 }

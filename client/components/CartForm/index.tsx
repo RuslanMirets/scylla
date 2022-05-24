@@ -27,11 +27,12 @@ export const CartForm: React.FC<IProps> = ({ total }) => {
   const onSubmit = (data: any) => {
     const orderData = {
       userId: user!.id,
-      address: data.address,
       phone: data.phone,
       comment: data.comment,
-      cart: cartData,
       total,
+      productId: cartData.map((item) => item.id),
+      quantity: cartData.map((item) => item.quantity),
+      size: cartData.map((item) => item.selectedSize),
     };
     dispatch(createOrder(orderData));
     dispatch(clearCart());

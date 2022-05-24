@@ -20,16 +20,16 @@ const Cart: NextPage = () => {
     getTotal();
   }, [cartData]);
 
-  if (cartData.length === 0) {
-    return (
-      <MainLayout title="Корзина">
-        <Box className="empty-cart">
-          <img src="/assets/images/empty-cart.png" alt="Пустая корзина" />
-          <Typography variant="h6">Корзина пуста</Typography>
-        </Box>
-      </MainLayout>
-    );
-  }
+  // if (cartData.length === 0) {
+  //   return (
+  //     <MainLayout title="Корзина">
+  //       <Box className="empty-cart">
+  //         <img src="/assets/images/empty-cart.png" alt="Пустая корзина" />
+  //         <Typography variant="h6">Корзина пуста</Typography>
+  //       </Box>
+  //     </MainLayout>
+  //   );
+  // }
 
   return (
     <MainLayout title="Корзина">

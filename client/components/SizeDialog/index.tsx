@@ -33,7 +33,7 @@ export const SizeDialog: React.FC<IProps> = ({ open, onClose, product, cartData 
   };
 
   const handleAddToCart = () => {
-    dispatch(addToCart(product, cartData));
+    dispatch(addToCart({ ...product, selectedSize: size }, cartData));
     onClose();
   };
 
