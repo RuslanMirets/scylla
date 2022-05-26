@@ -8,7 +8,6 @@ import {
   BelongsTo,
   ForeignKey,
   BelongsToMany,
-  HasMany,
 } from 'sequelize-typescript';
 import { User } from 'src/modules/user/models/user.model';
 
@@ -35,7 +34,4 @@ export class Order extends Model<Order> {
 
   @BelongsToMany(() => Product, () => OrderProduct)
   product: Product[];
-
-  @HasMany(() => OrderProduct)
-  quantity: number;
 }

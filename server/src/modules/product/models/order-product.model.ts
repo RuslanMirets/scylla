@@ -15,6 +15,9 @@ export class OrderProduct extends Model<OrderProduct> {
   @Column({ type: DataType.INTEGER })
   productId: number;
 
-  @Column({ type: DataType.JSONB, allowNull: true })
-  quantity: any | any[];
+  @Column({ type: DataType.INTEGER, allowNull: true })
+  quantity: number;
+
+  @Column({ type: DataType.STRING, allowNull: true })
+  selectedSize: string;
 }

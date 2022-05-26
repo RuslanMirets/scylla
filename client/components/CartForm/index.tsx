@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Paper, Typography } from '@mui/material';
+import { idID } from '@mui/material/locale';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { createOrder } from '../../store/actions/order';
@@ -30,9 +31,7 @@ export const CartForm: React.FC<IProps> = ({ total }) => {
       phone: data.phone,
       comment: data.comment,
       total,
-      productId: cartData.map((item) => item.id),
-      quantity: cartData.map((item) => item.quantity),
-      size: cartData.map((item) => item.selectedSize),
+      products: cartData,
     };
     dispatch(createOrder(orderData));
     dispatch(clearCart());
