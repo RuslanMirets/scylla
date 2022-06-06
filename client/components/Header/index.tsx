@@ -19,7 +19,7 @@ const pages = [
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.user);
+  const { user, registerData } = useAppSelector((state) => state.user);
   const { departments } = useAppSelector((state) => state.department);
   const { cartData } = useAppSelector((state) => state.cart);
 
@@ -36,10 +36,10 @@ export const Header: React.FC = () => {
   };
 
   React.useEffect(() => {
-    if (user) {
+    if (user || registerData) {
       setOpen(false);
     }
-  }, [user]);
+  }, [user, registerData]);
 
   return (
     <AppBar className={styles.root}>
