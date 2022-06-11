@@ -34,6 +34,7 @@ export class CategoryService {
   async findAllByType(slug: string): Promise<Category[]> {
     return await this.categoryRepository.findAll<Category>({
       include: [{ model: Type, where: { slug: { [Op.eq]: slug } } }],
+      order: [['name', 'ASC']],
     });
   }
 

@@ -52,7 +52,7 @@ export class CategoryController {
   }
 
   @Get('type/:slug')
-  findAllByDepartment(@Param('slug') slug: string) {
+  findAllByType(@Param('slug') slug: string) {
     return this.categoryService.findAllByType(slug);
   }
 
