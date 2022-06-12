@@ -71,6 +71,7 @@ export class ProductService {
     return await this.productRepository.findAll<Product>({
       where: { '$category.slug$': { [Op.eq]: slug } },
       include: { all: true },
+      order: [['updatedAt', 'DESC']],
     });
   }
 
