@@ -53,7 +53,7 @@ export const ProductCard: React.FC<IProps> = ({ product }) => {
           )}
         </CardActions>
       </Card>
-      <SizeDialog open={open} onClose={toggleSizeDialog} product={product} cartData={cartData} />
+      {/* <SizeDialog open={open} onClose={toggleSizeDialog} product={product} cartData={cartData} /> */}
     </>
   );
 };

@@ -80,4 +80,9 @@ export class ProductController {
   findProfileImage(@Param('imagename') imagename, @Res() res): Observable<Object> {
     return of(res.sendFile(join(process.cwd(), 'uploads/images/product/' + imagename)));
   }
+
+  @Get('similar/:slug/:id')
+  findSimilarProducts(@Param('slug') slug: string, @Param('id') id: number) {
+    return this.productService.findSimilarProducts(slug, id);
+  }
 }

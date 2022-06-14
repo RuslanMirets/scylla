@@ -25,6 +25,9 @@ export const productSlice = createSlice({
     createProduct(state, action: PayloadAction<IProduct>) {
       state.product = action.payload;
     },
+    getSimilarProducts(state, action: PayloadAction<IProduct[]>) {
+      state.products = action.payload;
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {

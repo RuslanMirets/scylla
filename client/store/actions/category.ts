@@ -28,3 +28,12 @@ export const getCategories = () => async (dispatch: AppDispatch) => {
     console.log(error);
   }
 };
+
+export const getCategoryByProduct = (id: string) => async (dispatch: AppDispatch) => {
+  try {
+    const response = await getAPI(`category/product/${id}`);
+    dispatch(categorySlice.actions.getCategoryByProduct(response.data));
+  } catch (error: any) {
+    console.log(error);
+  }
+};

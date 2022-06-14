@@ -7,8 +7,9 @@ import { Product } from './models/product.model';
 import { PRODUCT_REPOSITORY } from './../../core/constants/index';
 import { Inject, Injectable } from '@nestjs/common';
 import { Department } from '../department/models/department.model';
-import { Op } from 'sequelize';
+import { fn, Op } from 'sequelize';
 import { Category } from '../category/models/category.model';
+import sequelize from 'sequelize';
 
 @Injectable()
 export class ProductService {
@@ -71,6 +72,8 @@ export class ProductService {
     return await this.productRepository.findAll<Product>({
       where: { '$category.slug$': { [Op.eq]: slug } },
       include: { all: true },
+      // Alter
+      // include: [{ model: Category, where: { slug: { [Op.eq]: slug } } }],
       order: [['updatedAt', 'DESC']],
     });
   }
@@ -87,5 +90,14 @@ export class ProductService {
       },
       { where: { id: id } },
     );
+  }
+
+  async findSimilarProducts(slug: string, id: number): Promise<Product[]> {
+    return await this.productRepository.findAll<Product>({
+      include: [{ model: Category, where: { slug: { [Op.eq]: slug } } }],
+      where: { id: { [Op.ne]: id } },
+      order: [fn('RANDOM')],
+      limit: 4,
+    });
   }
 }

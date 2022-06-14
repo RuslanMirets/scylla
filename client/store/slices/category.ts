@@ -25,6 +25,9 @@ export const categorySlice = createSlice({
     getCategories(state, action) {
       state.categories = action.payload;
     },
+    getCategoryByProduct(state, action) {
+      state.category = action.payload;
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {

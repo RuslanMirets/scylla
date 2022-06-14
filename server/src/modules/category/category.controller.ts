@@ -66,6 +66,11 @@ export class CategoryController {
     return this.categoryService.findOneBySlug(slug);
   }
 
+  @Get('/product/:id')
+  findOneByProduct(@Param('id') id: number) {
+    return this.categoryService.findOneByProduct(id);
+  }
+
   @Patch('name/:id')
   updateName(@Body() dto: UpdateCategoryDto, @Param('id') id: number) {
     return this.categoryService.updateName(dto, id);

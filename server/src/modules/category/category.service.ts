@@ -1,3 +1,4 @@
+import { Product } from 'src/modules/product/models/product.model';
 import { TypeService } from './../type/type.service';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -49,6 +50,12 @@ export class CategoryService {
     return await this.categoryRepository.findOne<Category>({
       where: { slug },
       include: { all: true },
+    });
+  }
+
+  async findOneByProduct(id: number): Promise<Category> {
+    return await this.categoryRepository.findOne<Category>({
+      include: [{ model: Product, where: { id: { [Op.eq]: id } } }],
     });
   }
 

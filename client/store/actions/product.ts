@@ -43,7 +43,7 @@ export const getProductById = (id: string) => async (dispatch: AppDispatch) => {
 
 export const createProduct = (data: IProduct) => async (dispatch: AppDispatch) => {
   try {
-    const price = data.price.toString()
+    const price = data.price.toString();
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('price', price);
@@ -60,5 +60,14 @@ export const createProduct = (data: IProduct) => async (dispatch: AppDispatch) =
     dispatch(alertSlice.actions.success('Товар добавлен'));
   } catch (error: any) {
     dispatch(alertSlice.actions.errors(error.response.data.message));
+  }
+};
+
+export const getSimilarProducts = (slug: string, id: string) => async (dispatch: AppDispatch) => {
+  try {
+    const response = await getAPI(`product/similar/${slug}/${id}`);
+    dispatch(productSlice.actions.getSimilarProducts(response.data));
+  } catch (error: any) {
+    console.log(error);
   }
 };
