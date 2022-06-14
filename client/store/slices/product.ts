@@ -1,5 +1,5 @@
 import { IProduct } from './../../types/product';
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
 export interface ProductState {
@@ -20,6 +20,9 @@ export const productSlice = createSlice({
       state.products = action.payload;
     },
     getProductById(state, action) {
+      state.product = action.payload;
+    },
+    createProduct(state, action: PayloadAction<IProduct>) {
       state.product = action.payload;
     },
   },

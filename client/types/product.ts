@@ -20,4 +20,6 @@ export interface IProduct {
   images: IImage[];
   quantity: number;
   selectedSize: string;
+  categoryId: number;
+  brandId: number;
 }

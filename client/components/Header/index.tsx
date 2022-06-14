@@ -2,6 +2,7 @@ import { AppBar, Badge, Box, IconButton, Toolbar, Typography } from '@mui/materi
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import LoginIcon from '@mui/icons-material/Login';
 import { Container } from '@mui/system';
 import React from 'react';
@@ -14,7 +15,7 @@ import { logout } from '../../store/actions/user';
 
 const pages = [
   { title: 'Главная', href: '/' },
-  { title: 'Пользователи', href: '/users' },
+  // { title: 'Пользователи', href: '/users' },
 ];
 
 export const Header: React.FC = () => {
@@ -40,6 +41,8 @@ export const Header: React.FC = () => {
       setOpen(false);
     }
   }, [user, registerData]);
+
+  const isAdmin = user?.role[0].value === 'ADMIN';
 
   return (
     <AppBar className={styles.root}>
@@ -75,6 +78,13 @@ export const Header: React.FC = () => {
                     <AccountCircleIcon />
                   </IconButton>
                 </LinkItem>
+                {isAdmin && (
+                  <LinkItem href="/admin">
+                    <IconButton>
+                      <AdminPanelSettingsIcon />
+                    </IconButton>
+                  </LinkItem>
+                )}
                 <IconButton onClick={handleLogout}>
                   <LogoutIcon />
                 </IconButton>

@@ -1,3 +1,6 @@
+import { sizeReducer } from './slices/size';
+import { colorReducer } from './slices/color';
+import { brandReducer } from './slices/brand';
 import { cartReducer } from './slices/cart';
 import { productReducer } from './slices/product';
 import { categoryReducer } from './slices/category';
@@ -19,6 +22,9 @@ export function makeStore() {
       category: categoryReducer,
       product: productReducer,
       cart: cartReducer,
+      brand: brandReducer,
+      color: colorReducer,
+      size: sizeReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().prepend(

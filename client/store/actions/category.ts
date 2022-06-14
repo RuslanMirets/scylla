@@ -19,3 +19,12 @@ export const getCategoryBySlug = (slug: string) => async (dispatch: AppDispatch)
     console.log(error);
   }
 };
+
+export const getCategories = () => async (dispatch: AppDispatch) => {
+  try {
+    const response = await getAPI('category');
+    dispatch(categorySlice.actions.getCategories(response.data));
+  } catch (error: any) {
+    console.log(error);
+  }
+};
